@@ -1,16 +1,16 @@
 declare module 'react-jss' {
-  declare type StatelessComponent<P> = (props: P) => ?React$Element<any>;
+  declare type FunctionComponent<P> = (props: P) => ?React$Element<any>;
+  declare type ClassComponent<D, P, S> = Class<React$Component<D, P, S>>;
 
-
-  declare type Classes<CSS> = {
+  declare type Klasses<CSS> = {
     [classname: $Keys<CSS>]: string,
   };
 
-  declare type AddedProps<CSS> = {
-    classes: Classes<CSS>,
+  declare export type JSSProps<CSS> = {
+    classes: Klasses<CSS>,
     sheet: {
       attached: boolean,
-      classes: Classes<CSS>,
+      classes: Klasses<CSS>,
       deployed: boolean,
       linked: boolean,
       options: Object,
@@ -19,17 +19,11 @@ declare module 'react-jss' {
     },
   };
 
-
-  declare type Injector<P, Def, S, CSS> = {
-    (component: StatelessComponent<P>): Class<React$Component<void, $Diff<P, AddedProps<CSS>>, void>>;
-    <Def, St>(component: Class<React$Component<Def, P, St>>): Class<React$Component<void, $Diff<P, AddedProps<CSS>>, void>>;
-  };
-
-
-
-  declare function injectSheet<OP, Def, S, CSS>(
-    CSS: CSS
-  ): Injector<OP, Def, S, CSS>;
-
-  declare module.exports: typeof injectSheet;
+  declare export default function injectSheet<Props, State, DefaultProps, CSS>(
+    CSS: CSS,
+  ): (
+    component:
+      | ClassComponent<DefaultProps, Props, State>
+      | FunctionComponent<Props>,
+  ) => ClassComponent<DefaultProps, $Diff<Props, JSSProps<CSS>>, void>;
 }

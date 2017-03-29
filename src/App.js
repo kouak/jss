@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Styled } from './styled'
+import { StyledFunc, StyledCl } from './Styled'
 
 class App extends Component {
   render() {
@@ -14,7 +14,8 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
         <p className="App-intro">
-          <Styled text={'Styled'} />
+          <StyledFunc text="text" />
+          <StyledCl text="text" />
         </p>
       </div>
     );
